@@ -42,13 +42,30 @@ Dzięki dziedziczeniu po klasie `Figura` omijamy wielokrotne definiowanie pola `
 Nie trudno wyobrazić sobie, że dla większych klas taki zabieg pozwala zaoszczędzić wiele linijek kodu.
 
 ### Modyfikatory dostępu
+W przykładzie powyżej, w konstruktorach klas pochodnych zmuszeni byliśmy używać settera pola klasy bazowej, gdyż było ono prywatne.
+Wygodniej nam jednak operować bezpośrednio na zmiennej.
+Z drugiej strony, nie chcemy wystawiać tej zmiennej bezpośrednio do użytkownika.
+Rozwiązaniem tego dylematu jest trzeci (i ostatni) specyfikator dostępu w C\+\+: `protected` (chroniony).
+Pola chronione mogą być czytane i modyfikowane przez metody klas, które dziedziczą po klasie, do której chronione pole należy, ale nie przez żadne inne.
 
-**modyfikator dostępu `private`**
-| Dostęp w klasie bazowej | Dostęp w klasie pochodnej |
-|-------------------------|---------------------------|
-| `public`                | `public`                  |
-| `protected`             | `protected`               |
-| `private`               | brak dostępu              |
+#### Zadanie 5
+Uczyń pole `pole` chronionym.
+Usuń setter tego pola i zmodyfikuj odpowiednio konstruktory klas `Kwadrat` i `Kolo`.
+
+**modyfikator dostępu `public`**
+| Modyfikator dostępu | Dostęp w klasie bazowej | Dostęp w klasie pochodnej |
+|---------------------|-------------------------|---------------------------|
+| `public`            | `public`                | `public`                  |
+|                     | `protected`             | `protected`               |
+|                     | `private`               | brak dostępu              |
+|---------------------|-------------------------|---------------------------|
+| `protected`         | `public`                | `protected`               |
+|                     | `protected`             | `protected`               |
+|                     | `private`               | brak dostępu              |
+|---------------------|-------------------------|---------------------------|
+| `private`           | `public`                | `private`                 |
+|                     | `protected`             | `private`                 |
+|                     | `private`               | brak dostępu              |
 
 ### Konstruktory klas pochodnych
 
