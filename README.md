@@ -52,18 +52,21 @@ Pola chronione mogą być czytane i modyfikowane przez metody klas, które dzied
 Uczyń pole `pole` chronionym.
 Usuń setter tego pola i zmodyfikuj odpowiednio konstruktory klas `Kwadrat` i `Kolo`.
 
-**modyfikator dostępu `public`**
+Dodatkowo możemy przy dziedziczeniu zmodyfikować dostęp do pól i metod klasy bazowej za pomocą modyfikatorów dostępu.
+Nie będziemy tego ćwiczyć, ale dla kompletności bieżącego tekstu podajemy niżej wygodną "ściągawkę".
+
 | Modyfikator dostępu | Dostęp w klasie bazowej | Dostęp w klasie pochodnej |
-|---------------------|-------------------------|---------------------------|
-| `public`            | `public`                | `public`                  |
+|:--------------------|:-----------------------:|:-------------------------:|
+| `public`            |                         |                           |
+|                     | `public`                | `public`                  |
 |                     | `protected`             | `protected`               |
 |                     | `private`               | brak dostępu              |
-|---------------------|-------------------------|---------------------------|
-| `protected`         | `public`                | `protected`               |
+| `protected`         |                         |                           |
+|                     | `public`                | `protected`               |
 |                     | `protected`             | `protected`               |
 |                     | `private`               | brak dostępu              |
-|---------------------|-------------------------|---------------------------|
-| `private`           | `public`                | `private`                 |
+| `private`           |                         |                           |
+|                     | `public`                | `private`                 |
 |                     | `protected`             | `private`                 |
 |                     | `private`               | brak dostępu              |
 
