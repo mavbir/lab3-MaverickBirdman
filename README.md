@@ -56,7 +56,7 @@ Dodatkowo możemy przy dziedziczeniu zmodyfikować dostęp do pól i metod klasy
 Nie będziemy tego ćwiczyć, ale dla kompletności bieżącego tekstu podajemy niżej wygodną "ściągawkę".
 
 | Modyfikator dostępu | Dostęp w klasie bazowej | Dostęp w klasie pochodnej |
-|:--------------------|:-----------------------:|:-------------------------:|
+|--------------------:|:-----------------------:|:-------------------------:|
 | `public`            |                         |                           |
 |                     | `public`                | `public`                  |
 |                     | `protected`             | `protected`               |
