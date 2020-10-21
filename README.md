@@ -71,8 +71,47 @@ Nie będziemy tego ćwiczyć, ale dla kompletności bieżącego tekstu podajemy 
 |                     | `private`               | brak dostępu              |
 
 ### Konstruktory klas pochodnych
+Fakt, że klasa pochodna zawiera w sobie podobiekt klasy bazowej ma konsekwencje dla sposobu jej konstrukcji.
+Przypomnijmy, że dla niedziedziczących klas tworzenie obiektu przebiego wg. następującego schematu:
+1. Następuje alokacja pamięci na obiekt (na stosie lub na stercie, dla przebiegu procesu konstrukcji nie jest to istotne)
+2. Wołany jest konstruktor
+3. Pola obiektu są inicjalizowane przy pomocy listy inicjalizacyjnej i/lub konstruktorów domyślnych tych pól
+4. Wykonywane jest ciało konstruktora
+
+Zobaczmy, co stanie się, gdy spróbujemy bezpośrednio przenieść ten schemat na klasy dziedziczące.
+
+#### Zadanie 6
+Zmodyfikuj konstruktory klas `Kolo` i `Kwadrat` tak, aby inicjalizowały pole `pole` w swojej liście inicjalizacyjnej.
+Czy kod się skompiluje?
+
+Błąd kompilacji w powyższym zadaniu wynika z tego, że - z punktu widzenia konstrukcji - klasa bazowa zachowuje się jak pole klasy pochodnej.
+Ogólny schemat tworzenia obiektu wygląda więc nieco inaczej, niż ten przedstawiony powyżej:
+1. Następuje alokacja pamięci na obiekt
+2. Wołany jest konstruktor
+3. Obiekty klas bazowych konstruowane są za pomocą wskazanych konstruktorów (lub, jeżeli takowe nie został wskazane, konstruktorów domyślnych)
+4. Pola obiektu są inicjalizowane przy pomocy listy inicjalizacyjnej i/lub konstruktorów domyślnych tych pól
+5. Wykonywane jest ciało konstruktora
+
+W kodzie wygląda to następująco:
+```C++
+class B1 { /* ... */ };
+class B2 { /* ... */ };
+// ...
+class D : public B1, public B2 // ...
+{
+    D(/* ... */) : B1{/* ... */}, B2{/* ... */} /* ... */
+	{
+	    // ...
+	}
+};
+```
+
+#### Zadanie 7
+Zmodyfikuj konstruktory klas `Kolo` i `Kwadrat` tak, aby inicjalizowały odpowiednio obiekt bazowy.
+Zauważ, że możesz teraz uczynić pole `pole` prywatnym, gdyż odwołujesz się nie bezpośrednio do niego, tylko do konstruktora `Figura`.
 
 ## Metody wirtualne
+
 
 ### Metody i klasy abstrakcyjne
 
