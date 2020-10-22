@@ -210,9 +210,95 @@ Co stanie się, gdy wykomentujesz z klasy `Figura` metodę `id`?
 Metody abstrakcyjne mogą być np. używane przez autorów bibliotek do zdefiniowania schematu, wg. którego ma być używana dana funkcjonalność, a następnie wymuszenia na użytkowniku dostarczenia własnej implementacji tejże funkcjonalności.
 
 ## Przykłady zastosowań
+Przećwiczmy teraz kilka wzorców, które występują często w praktyce programistycznej.
 
 ### Heterogeniczny kontener
+Fakt, że możemy wskazywać na obiekty klasy pochodnej wskaźnikiem do klasy bazowej, może być przez nas wykorzystany do trzymania obiektów różnego typu w jednym miejscu.
+
+#### Zadanie 15
+Napisz klasę `WektorFigur`, która przechowuje tablicę wskaźników do obiektów typu `Figura`.
+Dla uproszczenia możesz zaalokować pamięć na wskaźniki statycznie (np. 1000 elementów).
+Dodaj także do klasy licznik, który śledzi, ile obiektów zostało już przypisane.
+
+#### Zadanie 16
+Przeciąż dla klasy `WektorFigur` operator `[]` tak, aby móc indeksować się po trzymanych wskaźnikach.
+Jeżeli indeks przekroczy liczbę trzymanych obecnie elementów, zwróć `nullptr`.
+
+#### Zadanie 17
+Dodaj do klasy `WektorFigur` destruktor, który zawoła dla każdego trzymanego obiektu operator `delete`.
+
+#### Zadanie 18
+Napisz metodę `push`, która dopisuje na końcu trzymanego zakresu podany wskaźnik i inkrementuje licznik.
+
+#### Zadanie 19
+Napisz metodę `pop`, która niszczy ostatni element trzymanego zakresu i dekrementuje licznik.
+
+W napisanej właśnie klasie `WektorFigur` możemy trzymać różnego typu figury.
+Zauważmy, że jeżeli dopisalibyśmy nową klasę dziedziczącą po `Figura`, np. trójkąt, nie musimy zmieniać w `WektorFigur` ani jednej linijki.
+Nasz kod jest zgodny z zasadą *open for extension, closed to modification*.
 
 ### Fabryka
+Fabryka to klasa, której obiekty są używane do tworzenia innych obiektów.
+
+#### Zadanie 20
+Napisz klasę `FabrykaFigur` i przeciąż dla niej operator `()` tak, aby jego sygnaturą było `Figura* operator()(const std::string&, double)`.
+Jeżeli podanym stringiem jest "kwadrat", niech operator nawiasów konstruuje przy pomocy podanej liczby kwadrat, a jeżeli podano "kolo", niech konstruuje koło.
+W innym przypadku zwróć `nullptr`.
 
 ### Wizytator
+Wizytator to jeden z częściej stosowanych *design pattern* w C\+\+.
+Mając dany wskaźnik do obiektu polimorficznego, chcielibyśmy potrafić wykonać na nim różne operacje w zależności od typu obiektu, na który "tak naprawdę" wskazuje.
+Mając dany kontener takich wskaźników, chcielibyśmy móc się po nim odpowiednio przeiterować.
+Zacznijmy od prostych rzeczy.
+
+#### Zadanie 21
+Dodaj to klasy `WektorFigur` metodę `void idWszystkie()`, która woła po kolei metodę `id` trzymanych figur.
+Pamiętaj, że mając wskaźnik do obiektu, możesz zawołać jego metodę przy użyciu operatora `->`.
+
+W powyższym zadaniu zakładamy, że chcemy zawołać dla zawartości kontenera konkretą metodę.
+Jest to dość mało ogólne rozwiązanie.
+Postawmy się w sytuacji, w której piszemy bibliotekę, z której korzystać będą osoby trzecie.
+Nie możemy do końca przewidzieć, co będą one chciały zrobić z trzymanymi w kontenerze figurami.
+Musimy zatem przygotować mechanizm, za pomocą którego użytkownik może zdefiniować własną funkcję, która wykona na obiektach operacje zależne od typu obiektu.
+Rozwiązaniem tego problemu jest właśnie wizytator.
+
+#### Zadanie 22
+Napisz klasę `WizytatorFigurBaza`.
+Dodaj do niej 2 abstrakcyjne przeciążenia metody `void wizytuj(...)`: jedno przyjmujące typ `Kwadrat&` i jedno przyjmujące typ `Kolo&`.
+
+#### Zadanie 23
+Dodaj do klasy `Figura` abstrakcyjną metodę `void akceptuj(WizytatorFigurBaza&)`.
+
+#### Zadanie 24
+Nadpisz w klasach `Kwadrat` i `Kolo` metodę `akceptuj` tak, aby wołała metodę `wizytuj` podanego wizytatora na danym obiekcie geometrycznym (`v.wizytuj(*this);`).
+
+#### Zadanie 25
+Dodaj do klasy `WektorFigur` metodę `void wizytujWszystkie(WizytatorFigurBaza&)`, która woła po kolei dla każdej trzymanej figury metodę `akceptuj` na podanym wizytatorze.
+
+Jako autorzy biblioteki, zakończyliśmy właśnie pracę.
+Ostatni krok leży po stronie użytkownika.
+
+#### Zadanie 26
+Napisz klasę `WizytatorDrukujacy`, która dziedziczy po klasie `WizytatorFigurBaza`.
+Nadpisz oba przeciążenia metody `wizytuj` tak, aby drukowały informację o typie wizytowanej figury.
+
+Właśnie w pełni zaimplementowaliśmy wizytator!
+Aby przetestować jego działanie, wystarczy stworzyć wizytator drukujący oraz kontener figur, wypełnić kontener, a następnie zawołać metodę `wizytujWszystkie` na zdefiniowanym wizytatorze.
+Zastanówmy się, jak dokładnie napisany przez nas kod.
+Zacznijmy od tego, że podany przez nas wizytator jest z punktu widzenia `wizytujWszystkie` referencją do bazowej klasy wizytatora.
+Fakt ten pozwala nam ujednolicić interfejs kontenera - jeżeli chcemy zdefiniować nowy wizytator, który robi coś zupełnie innego, wystarczy, że powtórzymy zadanie 26.
+Nie musimy modyfikować żadnych napisanych wcześniej klas!
+Ponownie zachowujemy się zgodnie z zasadą *open-closed*.
+Prześledźmy teraz co dokładnie dzieje się przy wizytowaniu każdej figury.
+Najpierw wołana jest metoda `akceptuj` figury.
+Jest ona wirtualna, a zatem, pomimo tego, że nigdzie jawnie nie trzymamy informacji o "prawdziwym" typie figury, wołana jest metoda odpowiedniej klasy pochodnej.
+Następnie, metoda `akceptuj` klasy pochodnej (`Kwadrat` lub `Kolo`), woła "na sobie" metodę `wizytuj` wizytatora, która przeciążona jest zarówno dla `Kwadrat` jak i dla `Kolo`.
+Dość charakterystyczna jest tutaj "podwójna delegacja" (ang. *double dispatch*) - wizytator wizytuje, ale także obiekt wizytowany akceptuje.
+Osiągnęliśmy zatem to, co chcieliśmy - możemy dokonywać na trzymanych figurach dowolnie zdefiniowanych operacji zależnych od "prawdziwego" typu figury.
+
+#### Zadanie 27
+Przetestuj działanie napisanego kodu.
+Jeżeli masz wątpliwości, że jest ono w pełni dynamiczne, możesz uzależnić typ wkładanych do kontenera figur od wejścia z konsoli (pomocna będzie do tego fabryka).
+Jeżeli nie rozumiesz w pełni działania schematu projektowego wizytatora, nie przejmuj się.
+Stanowi on dość zaawansowany przykład wykorzystania dynamicznego polimorfizmu w C\+\+.
+Możesz poczytać o nim więcej, np. [artykuł na wikipedii](https://en.wikipedia.org/wiki/Visitor_pattern#C++_example) napisany jest w dość zrozumiały sposób.
