@@ -235,7 +235,7 @@ Napisz metodę `pop`, która niszczy ostatni element trzymanego zakresu i dekrem
 
 W napisanej właśnie klasie `WektorFigur` możemy trzymać różnego typu figury.
 Zauważmy, że jeżeli dopisalibyśmy nową klasę dziedziczącą po `Figura`, np. trójkąt, nie musimy zmieniać w `WektorFigur` ani jednej linijki.
-Nasz kod jest zgodny z zasadą *open for extension, closed to modification*.
+Nasz kod jest zgodny z zasadą *open for extension, closed for modification*.
 
 ### Fabryka
 Fabryka to klasa, której obiekty są używane do tworzenia innych obiektów.
