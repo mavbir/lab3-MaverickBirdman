@@ -284,7 +284,7 @@ Nadpisz oba przeciążenia metody `wizytuj` tak, aby drukowały informację o ty
 
 Właśnie w pełni zaimplementowaliśmy wizytator!
 Aby przetestować jego działanie, wystarczy stworzyć wizytator drukujący oraz kontener figur, wypełnić kontener, a następnie zawołać metodę `wizytujWszystkie` na zdefiniowanym wizytatorze.
-Zastanówmy się, jak dokładnie napisany przez nas kod.
+Zastanówmy się, jak dokładnie działa napisany przez nas kod.
 Zacznijmy od tego, że podany przez nas wizytator jest z punktu widzenia `wizytujWszystkie` referencją do bazowej klasy wizytatora.
 Fakt ten pozwala nam ujednolicić interfejs kontenera - jeżeli chcemy zdefiniować nowy wizytator, który robi coś zupełnie innego, wystarczy, że powtórzymy zadanie 26.
 Nie musimy modyfikować żadnych napisanych wcześniej klas!
