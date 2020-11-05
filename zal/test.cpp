@@ -18,9 +18,10 @@ TEST_CASE("test", "[]")
         return std::uniform_int_distribution< unsigned int >{min_towar, max_towar}(mt);
     });
     for (const auto& towar : towary) {
-        const auto transported = transportujFlota(towar);
-        CHECK(transported == CountThis< Zaglowiec >::get());
-        CHECK(towar <= Stocznia::getTotalCap());
+        const auto zaglowce = transportujFlota(towar);
+
+        CHECK(zaglowce == CountThis< Zaglowiec >::get()); // wartoœæ zwrócona
+        CHECK(towar <= Stocznia::getTotalCap()); // przewieziony towar
 
         CountThis< Zaglowiec >::reset();
         Stocznia::resetTotalCap();
