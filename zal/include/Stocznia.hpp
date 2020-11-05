@@ -9,7 +9,7 @@ struct Stocznia
     Statek* operator()() const
     {
         static std::mt19937 mt{std::random_device{}()};
-        if (std::uniform_int_distribution< bool >{0, 1}(mt)) {
+        if (std::uniform_int_distribution< unsigned >{0, 1}(mt)) {
             constexpr unsigned int zagl_min = 10;
             constexpr unsigned int zagl_max = 20;
             const auto cap = std::uniform_int_distribution< unsigned int >{zagl_min, zagl_max}(mt);
