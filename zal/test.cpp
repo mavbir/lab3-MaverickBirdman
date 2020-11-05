@@ -1,33 +1,16 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include <type_traits>
 
-#include "Wektor2D.hpp"
+#include "transportujFlota.hpp"
 
-TEST_CASE("ctor, set, get", "[]")
+TEST_CASE("test", "[]")
 {
-    Wektor2D v{};
-    CHECK(v.getX() == Approx{0.});
-    CHECK(v.getY() == Approx{0.});
+    for (size_t towar = 40; towar < 1000; towar += 13) {
+        const auto transported = transportujFlota(towar);
+        CHECK(transported == CountThis< Zaglowiec >::get());
+        CHECK(towar <= Stocznia::getTotalCap());
 
-    v.setX(1.);
-    v.setY(2.);
-    CHECK(v.getX() == Approx{1.});
-    CHECK(v.getY() == Approx{2.});
-}
-
-TEST_CASE("algebra", "[]")
-{
-    Wektor2D v1{1., 2.};
-    Wektor2D v2{2., 1.};
-    auto     sum = v1 + v2;
-
-    REQUIRE(std::is_same_v< Wektor2D, decltype(sum) >);
-    CHECK(sum.getX() == Approx{3.});
-    CHECK(sum.getY() == Approx{3.});
-
-    auto prod = v1 * v2;
-
-    REQUIRE(std::is_same_v< double, decltype(prod) >);
-    CHECK(prod == Approx{4.});
+        CountThis< Zaglowiec >::reset();
+        Stocznia::resetTotalCap();
+    }
 }
