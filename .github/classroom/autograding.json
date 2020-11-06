@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Zaliczenie",
+      "setup": "mkdir zal/build; cd zal/build; cmake ..; make -j2; chmod +x zal",
+      "run": "zal/build/zal",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 5
+    }
+  ]
+}
