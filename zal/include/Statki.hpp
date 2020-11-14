@@ -7,7 +7,7 @@ struct Statek
     virtual unsigned int transportuj() = 0;
 };
 
-class Zaglowiec : Statek, CountThis< Zaglowiec >
+class Zaglowiec : public public Statek, CountThis< Zaglowiec >
 {
 public:
     unsigned int transportuj() override { return capacity; }
@@ -19,7 +19,7 @@ private:
     unsigned int capacity;
 };
 
-class Tankowiec : Statek
+class Tankowiec : public Statek
 {
 public:
     unsigned int transportuj() override { return capacity; }
